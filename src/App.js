@@ -9,9 +9,7 @@ import Navbar from "./components/Navbar";
 import Genre from './pages/Genre';
 import { maxWidth } from '@mui/system';
 import AddReview from './pages/AddReview';
-// import BookDetail from "./pages/BookDetail";
-// import Login from "./pages/Login";
-// import Signup from "./pages/Signup";
+import Account from './pages/Account';
 
 
 function App() {
@@ -24,9 +22,7 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/genre" element={<Genre />} />
           <Route path="/addreview" element={<AddReview />} />
-        {/* <Route path="/books/:id" element={<BookDetail />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} /> */}
+          <Route path="/account" element={<Account />} />
       </Routes>
     </Router>
   );
@@ -34,25 +30,3 @@ function App() {
 
 export default App;
 
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
