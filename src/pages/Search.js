@@ -2,12 +2,9 @@ import React, { useState } from "react";
 import supabase from "../supabaseClient";
 import BookList from "./BookList";
 
-
-
 export default function SearchForm() {
   const [userInput, setUserInput] = useState("");
   const [books, setBooks] = useState([]);
-  const [results, setResults] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,7 +13,6 @@ export default function SearchForm() {
     const { data, error } = await supabase
       .from("books")
       .select("book_id, title, description")
-      //.textSearch("description", userInput);
       .or(`title.ilike.%${userInput}%,description.ilike.%${userInput}%`);
 
     if (error) {
@@ -24,93 +20,91 @@ export default function SearchForm() {
       setBooks([]);
     } else {
       setBooks(data);
-      console.log("Books:", data);
-
     }
   };
 
-  function randomColor() {
-    var myArray = ["#8594AB", "#9FBBBA", "#FACDA7", "#EDA19D", "#CF8299", "#8B6B96"]; 
-    var rand = myArray[(Math.random() * myArray.length) | 0]
-    return rand;
-    //return 'hsla(' + (Math.random() * 360) + ', 100%, 50%, 1)';
-  }
+  const styles = {
+    container: {
+      marginLeft: '80px',
+      padding: '20px',
+      backgroundColor: '#000',
+      color: '#fff',
+      minHeight: '100vh',
+    },
+    header: {
+      fontSize: '2rem',
+      marginBottom: '20px',
+    },
+    input: {
+      padding: '10px',
+      width: '300px',
+      fontSize: '1rem',
+      borderRadius: '4px',
+      border: '1px solid #444',
+      backgroundColor: '#111',
+      color: '#fff',
+      marginRight: '10px',
+    },
+    button: {
+      padding: '10px 16px',
+      fontSize: '1rem',
+      backgroundColor: "rgba(255, 64, 129, .35)",
+      color: '#fff',
+      border: 'none',
+      borderRadius: '4px',
+      cursor: 'pointer',
+    },
+    row: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: '16px',
+      marginTop: '20px',
+    },
+    bookCard: {
+      flex: '0 0 auto',
+      width: '300px',
+      border: '1px solid #444',
+      borderRadius: '8px',
+      padding: '16px',
+      backgroundColor: '#111',
+      color: '#fff',
+    },
+  };
 
   return (
-      <div style={{ 
-        width: "100%",
-        margin: "0 auto",
-        padding: "2rem",
-        boxSizing: "border-box",
-        backgroundColor: "black",
-        color: "white"
-        }}>
+    <div style={styles.container}>
+      <h1 style={styles.header}>Search Database</h1>
 
-      <h1 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "1rem", marginLeft:"3rem"}}>
-        Search Database
-      </h1>
-      <form onSubmit={handleSubmit} style={{ marginBottom: "1.5rem", marginLeft:"3rem" }}>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="Type to search..."
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
-          style={{ padding: "0.5rem", width: "100%", marginBottom: "1rem" }}
+          style={styles.input}
         />
-        <button type="submit" style={{ padding: "0.5rem 1rem", marginLeft:"3rem"}}>
+        <button type="submit" style={styles.button}>
           Search
         </button>
       </form>
 
-
-      <div>
-
-  <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-  <div
-    style={{
-      display: "flex",
-      flexWrap: "wrap",
-      justifyContent: "center",
-      gap: "1rem",
-      width: "1050px",
-      boxSizing: "border-box",
-    }}
-  >
-    {books.length > 0 ? (
-      books.map((book) => (
-        <div
-          key={book.book_id}
-          style={{
-            width: "200px", // Fixed width
-            border: "1px solid #ccc",
-            padding: "1rem",
-            borderRadius: "8px",
-            backgroundColor: randomColor(),
-            minHeight: "150px",
-            boxSizing: "border-box",
-          }}
-        >
-          <p style={{ fontWeight: "bold", marginBottom: "0.5rem" }}>
-            {book.title}
-          </p>
-          <p style={{ fontSize: "0.9rem"}}>{book.description}</p>
-        </div>
-      ))
-    ) : (
-      userInput && (
-        <div style={{ gridColumn: "1 / -1" }}>
-          <p style={{ color: "#666"}}>No results found. Try these other books:</p>
-          <div>
-            <BookList/>
-          </div>
-        </div>
-      )
-    )}
-  </div>
-</div>
-
-</div>
-</div>
-
+      <div style={styles.row}>
+        {books.length > 0 ? (
+          books.map((book) => (
+            <div key={book.book_id} style={styles.bookCard}>
+              <h3>{book.title}</h3>
+              <p>{book.description}</p>
+            </div>
+          ))
+        ) : (
+          userInput && (
+            <div style={{ marginTop: '20px' }}>
+              <p style={{ color: "#999" }}>No results found. Try these other books:</p>
+              <BookList />
+            </div>
+          )
+        )}
+      </div>
+    </div>
   );
 }
