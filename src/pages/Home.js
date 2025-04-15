@@ -1,68 +1,100 @@
 import React, { useState, useEffect } from 'react';
 import supabase from '../supabaseClient';
+import { Star } from '@mui/icons-material';
 
 function Home() {
   const [newReleases, setNewReleases] = useState([]);
   const [forYouBooks, setForYouBooks] = useState([]);
   const [friendsBooks, setFriendsBooks] = useState([]);
+  const [highlyRatedBooks, setHighlyRatedBooks] = useState([]);
 
   useEffect(() => {
-    // Fetch new releases
     async function fetchBooks() {
-    //   const { data: books, error } = await supabase
-    //     .from('books')
-    //     .select('*')
-    //     .order('created_at', { ascending: false })
-    //     .limit(5); // Adjust to fetch the latest books
-    //   if (!error) setNewReleases(books);
-
-      // Fetch random "For You" books (you can adjust logic)
-      const { data: randomBooks, error: randomError } = await supabase
+      const { data: allBooks, error } = await supabase
       .from('books')
-      .select('title, description, averageratings(average)')
-      .limit(3);
+      .select('book_id, title, description, averageratings(average)');
 
-      if (!randomError) setForYouBooks(randomBooks);
+      if (error || !allBooks) {
+        console.error("Error fetching books:", error);
+        return;
+      }
+  
+      const booksWithRatings = allBooks.filter(book => book.averageratings?.average !== null);
 
-      // Fetch books your friends have reviewed (you'll need to connect users to friends somehow)
-    //   const { data: friendsBooksData, error: friendsError } = await supabase
-    //     .from('reviews')
-    //     .select('books(title, author)')
-    //     .eq('friend', 'current_user_id'); // Replace with actual user logic
-    //   if (!friendsError) setFriendsBooks(friendsBooksData);
-    }
+      const shuffled = [...booksWithRatings].sort(() => Math.random() - 0.5);
+      setForYouBooks(shuffled.slice(0, 3)); 
 
-    fetchBooks();
-  }, []);
+ 
+      const highlyRated = booksWithRatings.filter(book => book.averageratings.average >= 4);
+      const shuffledHigh = [...highlyRated].sort(() => Math.random() - 0.5);
+      setHighlyRatedBooks(shuffledHigh.slice(0, 3));
+  }
+
+  fetchBooks();
+}, []);
+
+
+  const renderStars = (rating) => {
+    const fullStars = rating; 
+    const emptyStars = 5 - fullStars;
+
+    const filledStars = Array(fullStars).fill().map((_, index) => (
+      <Star key={`full-${index}`} style={{ color: '#ffd700' }} />
+    ));
+
+    const emptyStarsArr = Array(emptyStars).fill().map((_, index) => (
+      <Star key={`empty-${index}`} style={{ color: '#e0e0e0' }} />
+    ));
+
+    return [...filledStars, ...emptyStarsArr];
+  };
+
 
   return (
-    <div>
+    <div style={styles.container}>
       <h1>Home</h1>
-      <h2>New Releases</h2>
-      {newReleases.map((book) => (
-        <div key={book.id}>
-          <h3>{book.title}</h3>
-          <p>{book.author}</p>
-        </div>
-      ))}
 
       <h2>For You</h2>
       {forYouBooks.map((book) => (
-        <div key={book.id}>
+        <div key={book.book_id} style={styles.bookItem}>
           <h3>{book.title}</h3>
-          <p>{book.author}</p>
+          <p>{book.description}</p>
+
+          {/* Display rating stars */}
+          <div style={styles.stars}>
+            {renderStars(book.averageratings ? book.averageratings.average : 0)}
+          </div>
         </div>
       ))}
 
-      <h2>Your Friends Enjoyed</h2>
-      {friendsBooks.map((book) => (
-        <div key={book.id}>
+      <h2>Highly Rated</h2>
+      {highlyRatedBooks.map((book) => (
+        <div key={book.book_id} style={styles.bookItem}>
           <h3>{book.title}</h3>
-          <p>{book.author}</p>
+          <p>{book.description}</p>
+          <div style={styles.stars}>
+            {renderStars(book.averageratings?.average || 0)}
+          </div>
         </div>
       ))}
+
     </div>
+    
   );
 }
+
+const styles = {
+  container: {
+    marginLeft: '80px', // Adjust for navbar space
+    padding: '20px',
+  },
+  bookItem: {
+    marginBottom: '20px',
+  },
+  stars: {
+    display: 'flex',
+    gap: '5px', // Space between stars
+  },
+};
 
 export default Home;
