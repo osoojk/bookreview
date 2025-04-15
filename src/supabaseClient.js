@@ -9,12 +9,12 @@ console.log("Supabase Key:", supabaseAnonKey ? "Loaded" : "Not Loaded");
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-async function signInAnonymously() {
-    const { data, error } = await supabase.auth.signInAnonymously();
-    if (error) console.log("Error signing in:", error);
-    else console.log("Signed in anonymously:", data);
-  }
+// async function signInAnonymously() {
+//     const { data, error } = await supabase.auth.signInAnonymously();
+//     if (error) console.log("Error signing in:", error);
+//     else console.log("Signed in anonymously:", data);
+//   }
   
-  signInAnonymously();
+//   signInAnonymously();
 
 export default supabase;
