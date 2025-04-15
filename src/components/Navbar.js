@@ -8,7 +8,7 @@ function Navbar() {
       <Link to="/" title="Home" style={styles.iconLink}>
         <Home fontSize="medium" style={styles.icon} />
       </Link>
-      <Link to="/add-review" title="Add Review" style={styles.iconLink}>
+      <Link to="/AddReview" title="Add Review" style={styles.iconLink}>
         <AddBox fontSize="medium" style={styles.icon} />
       </Link>
       <Link to="/search" title="Search" style={styles.iconLink}>

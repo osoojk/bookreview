@@ -87,6 +87,7 @@ const styles = {
   container: {
     marginLeft: '80px', // Adjust for navbar space
     padding: '20px',
+    color: "white"
   },
   bookItem: {
     marginBottom: '20px',
