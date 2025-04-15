@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import supabase from '../supabaseClient';
 import { Star } from '@mui/icons-material';
+import { fontSize } from '@mui/system';
 
 function Genre() {
     const genres = [
@@ -62,7 +63,7 @@ function Genre() {
                 <div style={styles.stars}>
                   {renderStars(book.averageratings?.average || 0)}
                 </div>
-                <p>{book.description}</p>
+                <p style={styles.description}>{book.description}</p>
               </div>
             ))}
           </div>
@@ -73,30 +74,39 @@ function Genre() {
 }
 
 const styles = {
-  container: {
-    padding: '20px',
-    marginLeft: '80px', // adjust for navbar
-  },
-  genreSection: {
-    marginBottom: '40px',
-  },
-  row: {
-    display: 'flex',
-    gap: '16px',
-    overflowX: 'auto',
-    paddingBottom: '10px',
-  },
-  bookCard: {
-    minWidth: '200px',
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '10px',
-    backgroundColor: '#fff',
-  },
-  stars: {
-    display: 'flex',
-    gap: '4px',
-  },
-};
+    container: {
+        padding: '10px 20px',
+        marginLeft: '80px',
+        backgroundColor: '#000',
+        color: '#fff',
+        minHeight: '100vh',
+    },
+    genreSection: {
+        marginBottom: '20px',
+        padding: '15px',
+        borderRadius: '10px',
+      },
+      row: {
+        display: 'flex',
+        flexDirection: 'row',
+        gap: '12px',
+        overflowX: 'auto',
+        paddingBottom: '10px',
+        scrollbarWidth: 'none',
+    },
+    bookCard: {
+        flex: '0 0 auto',
+        width: '300px',
+        border: '1px solid #444',
+        borderRadius: '6px',
+        padding: '10px',
+        backgroundColor: '#111',
+        color: '#fff',
+      },
+    stars: {
+      display: 'flex',
+      gap: '4px',
+    },
+  };
 
 export default Genre;
