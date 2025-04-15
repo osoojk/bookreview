@@ -46,10 +46,10 @@ export default function SearchForm() {
         color: "white"
         }}>
 
-      <h1 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "1rem" }}>
+      <h1 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "1rem", marginLeft:"3rem"}}>
         Search Database
       </h1>
-      <form onSubmit={handleSubmit} style={{ marginBottom: "1.5rem" }}>
+      <form onSubmit={handleSubmit} style={{ marginBottom: "1.5rem", marginLeft:"3rem" }}>
         <input
           type="text"
           placeholder="Type to search..."
@@ -57,7 +57,7 @@ export default function SearchForm() {
           onChange={(e) => setUserInput(e.target.value)}
           style={{ padding: "0.5rem", width: "100%", marginBottom: "1rem" }}
         />
-        <button type="submit" style={{ padding: "0.5rem 1rem" }}>
+        <button type="submit" style={{ padding: "0.5rem 1rem", marginLeft:"3rem"}}>
           Search
         </button>
       </form>

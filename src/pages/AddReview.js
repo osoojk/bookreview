@@ -44,7 +44,8 @@ export default function BookForm() {
         author: "",
         genre: "",
         description: "",
-        rating: ""
+        rating: "", 
+        comment: ""
       });
     }
 
@@ -109,6 +110,18 @@ export default function BookForm() {
               value={formData.rating}
               onChange={handleChange}
               inputProps={{ min: 1, max: 5 }}
+              required
+            />
+          </Box>
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              multiline
+              rows={4}
+              label="Comment"
+              name="comment"
+              value={formData.comment}
+              onChange={handleChange}
               required
             />
           </Box>
