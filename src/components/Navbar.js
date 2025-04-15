@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Home, Search, AddBox, Settings, Person } from '@mui/icons-material';
+import { Home, Search, AddBox, Settings, Person, LibraryBooks } from '@mui/icons-material';
 
 function Navbar() {
   return (
@@ -14,11 +14,11 @@ function Navbar() {
       <Link to="/search" title="Search" style={styles.iconLink}>
         <Search fontSize="medium" style={styles.icon} />
       </Link>
+      <Link to="/genre" title="Genre" style={styles.iconLink}>
+        <LibraryBooks fontSize="medium" style={styles.icon} />
+      </Link>
       <Link to="/account" title="Account" style={styles.iconLink}>
         <Person fontSize="medium" style={styles.icon} />
-      </Link>
-      <Link to="/settings" title="Settings" style={styles.iconLink}>
-        <Settings fontSize="medium" style={styles.icon} />
       </Link>
     </nav>
   );

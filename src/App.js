@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import BookList from "./pages/BookList";
 import Search from "./pages/Search";
 import Navbar from "./components/Navbar";
+import Genre from './pages/Genre';
 
 // import BookDetail from "./pages/BookDetail";
 // import Login from "./pages/Login";
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/books" element={<BookList />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/genre" element={<Genre />} />
         {/* <Route path="/books/:id" element={<BookDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} /> */}
