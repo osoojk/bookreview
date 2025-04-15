@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import supabase from '../supabaseClient';
 import { Star } from '@mui/icons-material';
-import { maxWidth, width } from '@mui/system';
 
 function Account() {
-  const [userBooks, setUserBooks] = useState([]);
+  const [myReviews, setMyReviews] = useState([]);
 
   useEffect(() => {
-    async function fetchUserBooks() {
+    async function fetchMyReviews() {
       const { data, error } = await supabase
         .from('user_uploaded_books')
-        .select('title, rating, description');
+        .select('title, rating, comment');
 
       if (error) {
-        console.error('Error fetching reviewed books:', error);
+        console.error("Error fetching your reviews:", error);
       } else {
-        setUserBooks(data);
+        setMyReviews(data);
       }
     }
 
-    fetchUserBooks();
+    fetchMyReviews();
   }, []);
 
   const renderStars = (rating) => {
@@ -32,7 +31,7 @@ function Account() {
           <Star key={`full-${i}`} style={{ color: '#ffd700' }} />
         ))}
         {Array(emptyStars).fill().map((_, i) => (
-          <Star key={`empty-${i}`} style={{ color: '#e0e0e0' }} />
+          <Star key={`empty-${i}`} style={{ color: '#444' }} />
         ))}
       </>
     );
@@ -40,38 +39,63 @@ function Account() {
 
   return (
     <div style={styles.container}>
-      <h1>Your Reviews</h1>
-      {userBooks.map((book, index) => (
-        <div key={index} style={styles.reviewCard}>
-          <h3>{book.title}</h3>
-          <div style={styles.stars}>{renderStars(book.rating)}</div>
-          <p><strong>Comment:</strong> {book.comment}</p>
-        </div>
-      ))}
+      <h1 style={styles.header}>My Reviews</h1>
+      <div style={styles.reviewColumn}>
+        {myReviews.map((review, idx) => (
+          <div key={idx} style={styles.reviewCard}>
+            <h2 style={styles.title}>{review.title}</h2>
+            <div style={styles.stars}>{renderStars(review.rating)}</div>
+            <p style={styles.comment}>{review.comment}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
 
 const styles = {
   container: {
-    padding: '20px',
-    color: 'white',
-    backgroundColor: 'black',
+    backgroundColor: '#121212',
+    color: '#fff',
     minHeight: '100vh',
-    marginLeft: '80px', 
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '40px 20px',
+    marginLeft: '80px', // adjust if you have a sidebar
+  },
+  header: {
+    fontSize: '2rem',
+    marginBottom: '30px',
+  },
+  reviewColumn: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '20px',
+    width: '100%',
+    maxWidth: '600px',
   },
   reviewCard: {
     backgroundColor: '#1e1e1e',
-    padding: '15px',
-    borderRadius: '10px',
-    marginBottom: '20px',
-    border: '1px solid #444',
-    width: '80vw',
+    padding: '20px',
+    borderRadius: '12px',
+    width: '100%',
+    boxShadow: '0 0 12px rgba(255, 255, 255, 0.05)',
+  },
+  title: {
+    marginBottom: '10px',
+    fontSize: '1.2rem',
+    fontWeight: 'bold',
   },
   stars: {
     display: 'flex',
     gap: '5px',
-    margin: '10px 0',
+    marginBottom: '10px',
+  },
+  comment: {
+    fontSize: '0.95rem',
+    color: '#ccc',
   },
 };
 
