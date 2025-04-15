@@ -29,13 +29,22 @@ export default function SearchForm() {
     }
   };
 
+  function randomColor() {
+    var myArray = ["#8594AB", "#9FBBBA", "#FACDA7", "#EDA19D", "#CF8299", "#8B6B96"]; 
+    var rand = myArray[(Math.random() * myArray.length) | 0]
+    return rand;
+    //return 'hsla(' + (Math.random() * 360) + ', 100%, 50%, 1)';
+  }
+
   return (
       <div style={{ 
         width: "100%",
-        maxWidth: "1000px",
         margin: "0 auto",
         padding: "2rem",
-        boxSizing: "border-box"}}>
+        boxSizing: "border-box",
+        backgroundColor: "black",
+        color: "white"
+        }}>
 
       <h1 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "1rem" }}>
         Search Database
@@ -76,7 +85,7 @@ export default function SearchForm() {
             border: "1px solid #ccc",
             padding: "1rem",
             borderRadius: "8px",
-            backgroundColor: "#f9f9f9",
+            backgroundColor: randomColor(),
             minHeight: "150px",
             boxSizing: "border-box",
           }}
@@ -84,14 +93,16 @@ export default function SearchForm() {
           <p style={{ fontWeight: "bold", marginBottom: "0.5rem" }}>
             {book.title}
           </p>
-          <p style={{ fontSize: "0.9rem", color: "#666" }}>{book.description}</p>
+          <p style={{ fontSize: "0.9rem"}}>{book.description}</p>
         </div>
       ))
     ) : (
       userInput && (
         <div style={{ gridColumn: "1 / -1" }}>
-          <p style={{ color: "#666" }}>No results found. Try these other books:</p>
-          <BookList />
+          <p style={{ color: "#666"}}>No results found. Try these other books:</p>
+          <div>
+            <BookList/>
+          </div>
         </div>
       )
     )}
